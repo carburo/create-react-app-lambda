@@ -1,45 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-
-class LambdaDemo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {loading: false, msg: null};
-  }
-
-  handleClick = (e) => {
-    e.preventDefault();
-
-    this.setState({loading: true});
-    fetch('/.netlify/functions/hello')
-      .then(response => response.json())
-      .then(json => this.setState({loading: false, msg: json.msg}));
-  }
-
-  render() {
-    const {loading, msg} = this.state;
-
-    return <p>
-      <button onClick={this.handleClick}>{loading ? 'Loading...' : 'Call Lambda'}</button><br/>
-      <span>{msg}</span>
-    </p>
-  }
-}
+import Layout from './components/Layout';
+import HouseAdView from './containers/HouseAdView';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {loading: false, data: null};
+    this.loadData.bind(this);
+  }
+
+  loadData() {
+    fetch('/.netlify/functions/house_ad_data')
+      .then(response => response.json())
+      .then(json => this.setState({loading: false, data: json}))
+  }
+
+  componentDidMount() {
+    this.loadData();
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <LambdaDemo/>
-      </div>
+        <Layout>
+          <HouseAdView loading={this.state.loading} data={this.state.data} />
+        </Layout>
     );
   }
 }
