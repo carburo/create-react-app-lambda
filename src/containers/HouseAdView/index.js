@@ -10,6 +10,9 @@ const HouseAdView = (props) => {
                     <p>
                         {data.description}
                     </p>
+                    <ul>
+                        {data.services.map( service => <li>{service.slug}</li>) }
+                    </ul>
                 </div>
             )}
         </div>
