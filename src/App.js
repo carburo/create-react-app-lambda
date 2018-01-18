@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Layout from './components/Layout';
-import HouseAdView from './containers/HouseAdView';
+import HostelAdView from './containers/HostelAdView';
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class App extends Component {
   }
 
   loadData() {
-    fetch('/.netlify/functions/house_ad_data')
+    fetch('/.netlify/functions/hostel_ad')
       .then(response => response.json())
       .then(json => this.setState({loading: false, data: json}))
   }
@@ -23,7 +23,7 @@ class App extends Component {
   render() {
     return (
         <Layout>
-          <HouseAdView loading={this.state.loading} data={this.state.data} />
+          <HostelAdView loading={this.state.loading} data={this.state.data} />
         </Layout>
     );
   }
